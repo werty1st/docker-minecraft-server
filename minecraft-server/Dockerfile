@@ -1,8 +1,11 @@
-FROM openjdk:8u201-jre-alpine
+FROM balenalib/generic-aarch64-alpine
+
+RUN ["cross-build-start"]
 
 LABEL maintainer "itzg"
 
 RUN apk add --no-cache -U \
+  openjdk8-jre \
   openssl \
   imagemagick \
   lsof \
@@ -78,3 +81,6 @@ ENV UID=1000 GID=1000 \
 
 COPY start* /
 RUN dos2unix /start* && chmod +x /start*
+
+RUN ["cross-build-end"]
+
