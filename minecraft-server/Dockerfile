@@ -1,8 +1,11 @@
-FROM openjdk:8u201-jre-alpine
+FROM balenalib/raspberrypi3-alpine
+
+RUN ["cross-build-start"]
 
 LABEL maintainer "itzg"
 
 RUN apk add --no-cache -U \
+  openjdk8-jre \
   openssl \
   imagemagick \
   lsof \
@@ -34,7 +37,7 @@ ARG RESTIFY_VER=1.1.5
 ARG RCON_CLI_VER=1.4.5
 ARG MC_SERVER_RUNNER_VER=1.3.1
 ARG TOF_BUILDTOOLS_VER=1.2.0
-ARG ARCH=amd64
+ARG ARCH=armv6
 
 ADD https://github.com/itzg/restify/releases/download/${RESTIFY_VER}/restify_${RESTIFY_VER}_linux_${ARCH}.tar.gz /tmp/restify.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/restify.tgz restify && \
@@ -78,3 +81,5 @@ ENV UID=1000 GID=1000 \
 
 COPY start* /
 RUN dos2unix /start* && chmod +x /start*
+
+RUN ["cross-build-end"]
