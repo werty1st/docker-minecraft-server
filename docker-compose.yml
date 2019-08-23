@@ -4,25 +4,21 @@ version: '3'
 services:
   minecraft:
     image: itzg/minecraft-server
+    build:
+      context: .
     ports:
       - "25565:25565"
     volumes:
-      - "mc:/data"
+      - "./data:/data"
     environment:
       EULA: "TRUE"
+      TYPE: SPIGOT
+      VERSION: LATEST    
       CONSOLE: "false"
-      ENABLE_RCON: "true"
+      ENABLE_RCON: "false"
       RCON_PASSWORD: "testing"
       RCON_PORT: 28016
     restart: always
-  rcon:
-    image: itzg/rcon
-    ports:
-      - "4326:4326"
-      - "4327:4327"
-    volumes:
-      - "rcon:/opt/rcon-web-admin/db"
 
-volumes:
-  mc:
-  rcon:
+
+
